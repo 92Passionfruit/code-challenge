@@ -37,7 +37,13 @@ jest.mock("../assets/products.json", () => [
 ]);
 
 describe("Products Component - Missing Product Details", () => {
+  beforeEach(() => {
+    jest.resetModules();
+    jest.mock("../assets/products.json", () => []);
+  });
+
   test("handles products with missing details", async () => {
+    const Products = require("../pages/Store").default;
     render(<Products />);
 
     // Handling missing name
@@ -64,7 +70,13 @@ jest.mock("../assets/products.json", () => {
 });
 
 describe("Products Component - Overlarge Product List", () => {
+  beforeEach(() => {
+    jest.resetModules();
+    jest.mock("../assets/products.json", () => []);
+  });
+
   test("displays only the first 24 products when the list is too long", async () => {
+    const Products = require("../pages/Store").default;
     render(<Products />);
 
     // Only 24 items are rendered
