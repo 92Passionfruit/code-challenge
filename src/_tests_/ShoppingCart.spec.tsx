@@ -112,4 +112,27 @@ describe("ShoppingCart Component - Edge Cases", () => {
       throw new Error("Total text not found.");
     }
   });
+
+  //Edge Case: Cart items persist across page refreshes
+  test("persists items in the cart across page refreshes", async () => {
+    const { unmount } = render(<ShoppingCart />);
+
+    const product = productsData[0];
+
+    // Find and click 'Add to Cart'
+    const addButton = await screen.findByTestId(`add-to-cart-${product.uuid}`);
+    fireEvent.click(addButton);
+
+    // Check product is added to cart
+    const cartItem = await screen.findByText(product.name);
+    expect(cartItem).toBeInTheDocument();
+
+    // Simulate page refresh
+    unmount();
+    render(<ShoppingCart />);
+
+    // Check product is still in cart after refresh
+    const persistedCartItem = await screen.findByText(product.name);
+    expect(persistedCartItem).toBeInTheDocument();
+  });
 });
