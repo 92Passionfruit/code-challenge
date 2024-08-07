@@ -1,16 +1,18 @@
 import { render, screen } from "@testing-library/react";
 import Products from "../pages/Store";
 
-// Edge Case: Empty Product List
-jest.mock("../assets/products.json", () => []);
-
 describe("Products Component - Empty Product List", () => {
+  beforeEach(() => {
+    jest.resetModules();
+    jest.mock("../assets/products.json", () => []);
+  });
+
   test("displays a message when there are no products", async () => {
+    const Products = require("../pages/Store").default;
     render(<Products />);
 
     const productItems = screen.queryAllByRole("listitem");
     expect(productItems).toHaveLength(0);
-
     expect(screen.getByText("No products available")).toBeInTheDocument();
   });
 });

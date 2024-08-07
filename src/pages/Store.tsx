@@ -1,6 +1,9 @@
 import productsData from "../assets/products.json";
 
 const Products = () => {
+  if (productsData.length === 0) {
+    return <div>No products available</div>;
+  }
   return (
     <ul>
       {productsData.map((item) => (
