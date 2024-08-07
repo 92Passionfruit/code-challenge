@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import ShoppingCart from "../context/ShoppingCart";
 import productsData from "../assets/products.json";
 
+// Core Functionality Tests
 describe("ShoppingCart Component", () => {
   test("adds products to the shopping cart", async () => {
     render(<ShoppingCart />);
@@ -30,7 +31,6 @@ describe("ShoppingCart Component", () => {
 
     // Check total is displayed correctly
     const totalElement = await screen.findByText(/^Total:/);
-
     expect(totalElement).toBeVisible();
 
     const totalText = totalElement.textContent;
@@ -59,6 +59,55 @@ describe("ShoppingCart Component", () => {
       }
 
       expect(total).toBeCloseTo(expectedTotal, 2);
+    } else {
+      throw new Error("Total text not found.");
+    }
+  });
+});
+
+// Edge Cases
+describe("ShoppingCart Component - Edge Cases", () => {
+  // Edge Case: Empty Cart
+  test("handles an empty cart", async () => {
+    render(<ShoppingCart />);
+
+    // Check cart starts empty
+    const totalElement = await screen.findByText(/^Total:/);
+    const totalText = totalElement.textContent;
+
+    if (totalText) {
+      const total = parseFloat(totalText.replace("Total: $", ""));
+      expect(total).toBeCloseTo(0, 2); // Total = $0 for an empty cart
+    } else {
+      throw new Error("Total text not found.");
+    }
+  });
+
+  // Edge Case: Single Product
+  test("displays correct total cost with a single product", async () => {
+    render(<ShoppingCart />);
+
+    const product = productsData[0];
+
+    // Add 1 product to cart
+    const addButton = await screen.findByTestId(`add-to-cart-${product.uuid}`);
+    fireEvent.click(addButton);
+
+    // Check product is in cart
+    const cartItem = await screen.findByText(product.name);
+    expect(cartItem).toBeInTheDocument();
+
+    // Check display of total
+    const totalElement = await screen.findByText(/^Total:/);
+    expect(totalElement).toBeVisible();
+
+    const totalText = totalElement.textContent;
+
+    if (totalText) {
+      const total = parseFloat(totalText.replace("Total: $", ""));
+      const productPrice = parseFloat(product.price);
+
+      expect(total).toBeCloseTo(productPrice, 2);
     } else {
       throw new Error("Total text not found.");
     }

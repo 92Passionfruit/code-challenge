@@ -76,11 +76,11 @@ describe("Products Component - Edge Cases", () => {
   test("handles products with missing details", async () => {
     render(<Products />);
 
-    // Handling a product with a missing name
+    // Handling missing name
     expect(await screen.findByText("Unnamed Product")).toBeInTheDocument();
     expect(await screen.findByText("65.95")).toBeInTheDocument();
 
-    // Handling a product with a missing price
+    // Handling missing price
     expect(await screen.findByText("Carbon Brake Pads")).toBeInTheDocument();
     expect(await screen.findByText("Price not available")).toBeInTheDocument();
   });
