@@ -8,8 +8,8 @@ const Products = () => {
     <ul>
       {productsData.map((item) => (
         <li key={item.uuid} role="listitem">
-          <div>{item.name}</div>
-          <div>${item.price}</div>
+          <div>{item.name ? item.name : "Unnamed Product"}</div>
+          <div>{item.price ? `$${item.price}` : "Price not available"}</div>
         </li>
       ))}
     </ul>

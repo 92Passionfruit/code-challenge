@@ -18,28 +18,27 @@ describe("Products Component - Empty Product List", () => {
 });
 
 // Edge Case: Missing Product Details
-jest.mock("../assets/products.json", () => [
-  {
-    uuid: 1411,
-    name: "Jockey Wheels - Orange",
-    price: "15.39",
-  },
-  {
-    uuid: 23881,
-    name: "", // Missing name
-    price: "65.95",
-  },
-  {
-    uuid: 13008,
-    name: "Carbon Brake Pads",
-    price: "", // Missing price
-  },
-]);
 
 describe("Products Component - Missing Product Details", () => {
   beforeEach(() => {
     jest.resetModules();
-    jest.mock("../assets/products.json", () => []);
+    jest.mock("../assets/products.json", () => [
+      {
+        uuid: 1411,
+        name: "Jockey Wheels - Orange",
+        price: "15.39",
+      },
+      {
+        uuid: 23881,
+        name: "", // Missing name
+        price: "65.95",
+      },
+      {
+        uuid: 13008,
+        name: "Carbon Brake Pads",
+        price: "", // Missing price
+      },
+    ]);
   });
 
   test("handles products with missing details", async () => {
@@ -48,7 +47,7 @@ describe("Products Component - Missing Product Details", () => {
 
     // Handling missing name
     expect(await screen.findByText("Unnamed Product")).toBeInTheDocument();
-    expect(await screen.findByText("65.95")).toBeInTheDocument();
+    expect(await screen.findByText("$65.95")).toBeInTheDocument();
 
     // Handling missing price
     expect(await screen.findByText("Carbon Brake Pads")).toBeInTheDocument();
