@@ -16,7 +16,7 @@ describe("Products Component", () => {
         await screen.findByText(product.uuid.toString())
       ).toBeInTheDocument();
       expect(await screen.findByText(product.name)).toBeInTheDocument();
-      expect(await screen.findByText(product.price)).toBeInTheDocument();
+      expect(await screen.findByText(`$${product.price}`)).toBeInTheDocument();
     });
   });
 
@@ -30,7 +30,7 @@ describe("Products Component", () => {
     // Each product's name and price are displayed
     productsData.forEach(async (product) => {
       expect(await screen.findByText(product.name)).toBeVisible();
-      expect(await screen.findByText(product.price)).toBeVisible();
+      expect(await screen.findByText(`$${product.price}`)).toBeVisible();
     });
   });
 });
