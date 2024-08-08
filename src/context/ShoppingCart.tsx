@@ -10,6 +10,10 @@ interface ShoppingCartProps {
 }
 
 const ShoppingCart = ({ cart }: ShoppingCartProps) => {
+  // Calculate total price
+  const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+
+  // Display
   return (
     <div>
       <h2>Cart Items</h2>
@@ -22,6 +26,8 @@ const ShoppingCart = ({ cart }: ShoppingCartProps) => {
           </li>
         ))}
       </ul>
+      {/* Display total price */}
+      <div>Total: ${totalPrice.toFixed(2)}</div>
     </div>
   );
 };
