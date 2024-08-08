@@ -2,10 +2,22 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import ShoppingCart from "../context/ShoppingCart";
 import productsData from "../assets/products.json";
 
+interface Product {
+  uuid: number;
+  name: string;
+  price: number;
+}
+
+// Mock data for testing
+const mockCart: Product[] = [
+  { uuid: 1, name: "Product 1", price: 23.1 },
+  { uuid: 2, name: "Product 2", price: 10.5 },
+];
+
 // Core Functionality Tests
 describe("ShoppingCart Component", () => {
   test("adds products to the shopping cart", async () => {
-    render(<ShoppingCart />);
+    render(<ShoppingCart cart={mockCart} />);
 
     const product = productsData[0];
 
@@ -19,7 +31,7 @@ describe("ShoppingCart Component", () => {
   });
 
   test("calculates and displays total cost (with and without discounts)", async () => {
-    render(<ShoppingCart />);
+    render(<ShoppingCart cart={mockCart} />);
 
     // Add all products to cart
     for (const product of productsData) {
@@ -40,7 +52,7 @@ describe("ShoppingCart Component", () => {
 
       // Calculate expected total
       const subtotal = productsData.reduce(
-        (sum, product) => sum + parseFloat(product.price),
+        (sum, product) => sum + product.price,
         0
       );
       let expectedTotal = subtotal;
@@ -69,7 +81,7 @@ describe("ShoppingCart Component", () => {
 describe("ShoppingCart Component - Edge Cases", () => {
   // Edge Case: Empty Cart
   test("handles an empty cart", async () => {
-    render(<ShoppingCart />);
+    render(<ShoppingCart cart={mockCart} />);
 
     // Check cart starts empty
     const totalElement = await screen.findByText(/^Total:/);
@@ -85,7 +97,7 @@ describe("ShoppingCart Component - Edge Cases", () => {
 
   // Edge Case: Single Product
   test("displays correct total cost with a single product", async () => {
-    render(<ShoppingCart />);
+    render(<ShoppingCart cart={mockCart} />);
 
     const product = productsData[0];
 
@@ -105,9 +117,8 @@ describe("ShoppingCart Component - Edge Cases", () => {
 
     if (totalText) {
       const total = parseFloat(totalText.replace("Total: $", ""));
-      const productPrice = parseFloat(product.price);
 
-      expect(total).toBeCloseTo(productPrice, 2);
+      expect(total).toBeCloseTo(product.price, 2);
     } else {
       throw new Error("Total text not found.");
     }
@@ -115,7 +126,7 @@ describe("ShoppingCart Component - Edge Cases", () => {
 
   //Edge Case: Cart items persist across page refreshes
   test("persists items in the cart across page refreshes", async () => {
-    const { unmount } = render(<ShoppingCart />);
+    const { unmount } = render(<ShoppingCart cart={mockCart} />);
 
     const product = productsData[0];
 
@@ -129,7 +140,7 @@ describe("ShoppingCart Component - Edge Cases", () => {
 
     // Simulate page refresh
     unmount();
-    render(<ShoppingCart />);
+    render(<ShoppingCart cart={mockCart} />);
 
     // Check product is still in cart after refresh
     const persistedCartItem = await screen.findByText(product.name);

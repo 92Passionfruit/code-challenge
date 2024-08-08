@@ -1,4 +1,3 @@
-// Define a type or interface for product if not already defined
 interface Product {
   uuid: number;
   name: string;
@@ -6,7 +5,7 @@ interface Product {
 }
 
 interface ShoppingCartProps {
-  cart: Product[]; // Define the type of cart items
+  cart: Product[];
 }
 
 const ShoppingCart = ({ cart }: ShoppingCartProps) => {
