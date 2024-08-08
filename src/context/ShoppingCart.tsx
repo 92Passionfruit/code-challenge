@@ -10,8 +10,21 @@ interface ShoppingCartProps {
 }
 
 const ShoppingCart = ({ cart }: ShoppingCartProps) => {
-  // Calculate total price
-  const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+  // Calculate subtotal
+  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+
+  // Apply discount logic
+  let discount = 0;
+  if (subtotal > 100) {
+    discount = 0.2; // 20% set as discount subtotal meets/passes $100 threshold
+  } else if (subtotal > 50) {
+    discount = 0.15; // 15% set as discount if meet/pass $50
+  } else if (subtotal > 20) {
+    discount = 0.1; // 10% set as discount if meet/pass $20
+  }
+
+  // Calculate total price after discount
+  const totalPrice = subtotal * (1 - discount);
 
   // Display
   return (
