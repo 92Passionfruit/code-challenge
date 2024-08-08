@@ -2,141 +2,21 @@
     {
       "uuid": 1,
       "name": "Jockey Wheels - Orange",
-      "price": "15.39"
+      "price": 15.39
     },
     {
       "uuid": 2,
       "name": "Chain Ring 146mm",
-      "price": "65.95"
+      "price": 65.95
     },
     {
       "uuid": 3,
       "name": "Carbon Brake Pads",
-      "price": "92.00"
+      "price": 92.00
     },
     {
       "uuid": 4,
       "name": "Front Derailleur - 34.9mm",
-      "price": "31.22"
-    },
-    {
-      "uuid": 5,
-      "name": "Jockey Wheels - Orange",
-      "price": "15.39"
-    },
-    {
-      "uuid": 6,
-      "name": "Chain Ring 146mm",
-      "price": "65.95"
-    },
-    {
-      "uuid": 7,
-      "name": "Carbon Brake Pads",
-      "price": "92.00"
-    },
-    {
-      "uuid": 8,
-      "name": "Front Derailleur - 34.9mm",
-      "price": "31.22"
-    },
-    {
-      "uuid": 9,
-      "name": "Jockey Wheels - Orange",
-      "price": "15.39"
-    },
-    {
-      "uuid": 10,
-      "name": "Chain Ring 146mm",
-      "price": "65.95"
-    },
-    {
-      "uuid": 11,
-      "name": "Carbon Brake Pads",
-      "price": "92.00"
-    },
-    {
-      "uuid": 12,
-      "name": "Front Derailleur - 34.9mm",
-      "price": "31.22"
-    },
-    {
-      "uuid": 13,
-      "name": "Jockey Wheels - Orange",
-      "price": "15.39"
-    },
-    {
-      "uuid": 14,
-      "name": "Chain Ring 146mm",
-      "price": "65.95"
-    },
-    {
-      "uuid": 15,
-      "name": "Carbon Brake Pads",
-      "price": "92.00"
-    },
-    {
-      "uuid": 16,
-      "name": "Front Derailleur - 34.9mm",
-      "price": "31.22"
-    },
-    {
-      "uuid": 17,
-      "name": "Jockey Wheels - Orange",
-      "price": "15.39"
-    },
-    {
-      "uuid": 18,
-      "name": "Chain Ring 146mm",
-      "price": "65.95"
-    },
-    {
-      "uuid": 19,
-      "name": "Carbon Brake Pads",
-      "price": "92.00"
-    },
-    {
-      "uuid": 20,
-      "name": "Front Derailleur - 34.9mm",
-      "price": "31.22"
-    },
-    {
-      "uuid": 21,
-      "name": "Jockey Wheels - Orange",
-      "price": "15.39"
-    },
-    {
-      "uuid": 22,
-      "name": "Chain Ring 146mm",
-      "price": "65.95"
-    },
-    {
-      "uuid": 23,
-      "name": "Carbon Brake Pads",
-      "price": "92.00"
-    },
-    {
-      "uuid": 24,
-      "name": "twenty four",
-      "price": "31.22"
-    },
-    {
-      "uuid": 25,
-      "name": "Jockey Wheels - Orange",
-      "price": "15.39"
-    },
-    {
-      "uuid": 26,
-      "name": "Chain Ring 146mm",
-      "price": "65.95"
-    },
-    {
-      "uuid": 27,
-      "name": "Carbon Brake Pads",
-      "price": "92.00"
-    },
-    {
-      "uuid": 28,
-      "name": "twenty eight",
-      "price": "31.22"
+      "price": 31.22
     }
   ]
