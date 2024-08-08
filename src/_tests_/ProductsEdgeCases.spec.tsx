@@ -55,34 +55,35 @@ describe("Products Component - Missing Product Details", () => {
   });
 });
 
-// Edge Case: Product List is Overlarge
-jest.mock("../assets/products.json", () => {
-  const products = [];
-  for (let i = 0; i < 1000; i++) {
-    products.push({
-      uuid: i,
-      name: `Product ${i}`,
-      price: `${i}.00`,
-    });
-  }
-  return products;
-});
-
 describe("Products Component - Overlarge Product List", () => {
   beforeEach(() => {
     jest.resetModules();
-    jest.mock("../assets/products.json", () => []);
+
+    // Set up mock data
+    jest.doMock("../assets/products.json", () => {
+      const products = [];
+      for (let i = 0; i < 1000; i++) {
+        products.push({
+          uuid: i,
+          name: `Product ${i}`,
+          price: `${i}.00`,
+        });
+      }
+      return products;
+    });
   });
 
   test("displays only the first 24 products when the list is too long", async () => {
+    // Import the Products component after setting up the mock
     const Products = require("../pages/Store").default;
+
     render(<Products />);
 
-    // Only 24 items are rendered
+    // Only 24 items should be rendered
     const productItems = await screen.findAllByRole("listitem");
     expect(productItems).toHaveLength(24);
 
-    // 25th item is not displayed
+    // Verify that the 25th item is not displayed
     expect(screen.queryByText("Product 24")).not.toBeInTheDocument();
   });
 });
