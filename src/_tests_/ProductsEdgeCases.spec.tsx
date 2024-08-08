@@ -59,7 +59,6 @@ describe("Products Component - Overlarge Product List", () => {
   beforeEach(() => {
     jest.resetModules();
 
-    // Set up mock data
     jest.doMock("../assets/products.json", () => {
       const products = [];
       for (let i = 0; i < 1000; i++) {
@@ -74,7 +73,6 @@ describe("Products Component - Overlarge Product List", () => {
   });
 
   test("displays only the first 24 products when the list is too long", async () => {
-    // Import the Products component after setting up the mock
     const Products = require("../pages/Store").default;
 
     render(<Products />);
@@ -83,7 +81,7 @@ describe("Products Component - Overlarge Product List", () => {
     const productItems = await screen.findAllByRole("listitem");
     expect(productItems).toHaveLength(24);
 
-    // Verify that the 25th item is not displayed
+    // Check 25th item is not displayed
     expect(screen.queryByText("Product 24")).not.toBeInTheDocument();
   });
 });
