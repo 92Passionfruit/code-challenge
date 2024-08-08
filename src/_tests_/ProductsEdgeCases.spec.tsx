@@ -85,6 +85,3 @@ describe("Products Component - Overlarge Product List", () => {
     expect(screen.queryByText("Product 24")).not.toBeInTheDocument();
   });
 });
-
-// TO DO
-// add test for multiple of same item added to cart?

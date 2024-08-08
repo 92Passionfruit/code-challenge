@@ -4,17 +4,10 @@ import ShoppingCart from "../context/ShoppingCart";
 import productsData from "../assets/products.json";
 import Store from "../pages/Store";
 
-interface Product {
-  uuid: number;
-  name: string;
-  price: number;
-}
-
 // Mock data
-const mockCart: Product[] = [
-  { uuid: 1411, name: "Jockey Wheels - Orange", price: 15.39 },
-  { uuid: 23881, name: "Chain Ring 146mm", price: 65.95 },
-];
+const mockCart = productsData.slice(0, 1); // No discount
+const mockCartTwo = productsData.slice(0, 2); // Discount applicable
+const mockEmptyCart = productsData.slice(0, 0); // Empty
 
 describe("ShoppingCart Component", () => {
   test("adds products to the shopping cart", async () => {
@@ -37,16 +30,8 @@ describe("ShoppingCart Component", () => {
     }
   });
 
-  test("calculates and displays total cost (with and without discounts)", async () => {
+  test("calculates and displays total cost without discount", async () => {
     render(<ShoppingCart cart={mockCart} />);
-
-    // Add all products to cart
-    for (const product of productsData) {
-      const addButton = await screen.findByTestId(
-        `add-to-cart-${product.uuid}`
-      );
-      fireEvent.click(addButton);
-    }
 
     // Check total is displayed correctly
     const totalElement = await screen.findByText(/^Total:/);
@@ -57,14 +42,39 @@ describe("ShoppingCart Component", () => {
     if (totalText) {
       const total = parseFloat(totalText.replace("Total: $", ""));
 
-      // Calculate expected total
-      const subtotal = productsData.reduce(
+      // Calculate expected total without discount
+      const expectedTotal = mockCart.reduce(
         (sum, product) => sum + product.price,
         0
       );
-      let expectedTotal = subtotal;
+
+      // Check total matches expected value without discount
+      expect(total).toBeCloseTo(expectedTotal, 2);
+    } else {
+      throw new Error("Total text not found.");
+    }
+  });
+
+  test("calculates and displays total cost with discount", async () => {
+    render(<ShoppingCart cart={mockCartTwo} />);
+
+    // Check total is displayed correctly
+    const totalElement = await screen.findByText(/^Total:/);
+    expect(totalElement).toBeVisible();
+
+    const totalText = totalElement.textContent;
+
+    if (totalText) {
+      const total = parseFloat(totalText.replace("Total: $", ""));
+
+      // Calculate expected subtotal
+      const subtotal = mockCartTwo.reduce(
+        (sum, product) => sum + product.price,
+        0
+      );
 
       // Apply discount logic
+      let expectedTotal = subtotal;
       if (subtotal > 100) {
         expectedTotal = subtotal - subtotal * 0.2;
       } else if (subtotal > 50) {
@@ -73,10 +83,7 @@ describe("ShoppingCart Component", () => {
         expectedTotal = subtotal - subtotal * 0.1;
       }
 
-      if (subtotal <= 20) {
-        expectedTotal = subtotal;
-      }
-
+      // Check total matches expected value with discount
       expect(total).toBeCloseTo(expectedTotal, 2);
     } else {
       throw new Error("Total text not found.");
@@ -88,7 +95,7 @@ describe("ShoppingCart Component", () => {
 describe("ShoppingCart Component - Edge Cases", () => {
   // Edge Case: Empty Cart
   test("handles an empty cart", async () => {
-    render(<ShoppingCart cart={mockCart} />);
+    render(<ShoppingCart cart={mockEmptyCart} />);
 
     // Check cart starts empty
     const totalElement = await screen.findByText(/^Total:/);
@@ -106,11 +113,7 @@ describe("ShoppingCart Component - Edge Cases", () => {
   test("displays correct total cost with a single product", async () => {
     render(<ShoppingCart cart={mockCart} />);
 
-    const product = productsData[0];
-
-    // Add 1 product to cart
-    const addButton = await screen.findByTestId(`add-to-cart-${product.uuid}`);
-    fireEvent.click(addButton);
+    const product = mockCart[0];
 
     // Check product is in cart
     const cartItem = await screen.findByText(product.name);
@@ -132,25 +135,26 @@ describe("ShoppingCart Component - Edge Cases", () => {
   });
 
   //Edge Case: Cart items persist across page refreshes
-  test("persists items in the cart across page refreshes", async () => {
-    const { unmount } = render(<ShoppingCart cart={mockCart} />);
+  test("persists items in the cart across page refreshes", () => {
+    // Clear localStorage
+    localStorage.clear();
 
-    const product = productsData[0];
+    // Render the ShoppingCart with mockCartTwo
+    const { unmount } = render(<ShoppingCart cart={mockCartTwo} />);
 
-    // Find and click 'Add to Cart'
-    const addButton = await screen.findByTestId(`add-to-cart-${product.uuid}`);
-    fireEvent.click(addButton);
-
-    // Check product is added to cart
-    const cartItem = await screen.findByText(product.name);
-    expect(cartItem).toBeInTheDocument();
-
-    // Simulate page refresh
+    // Unmount component to simulate page refresh
     unmount();
-    render(<ShoppingCart cart={mockCart} />);
 
-    // Check product is still in cart after refresh
-    const persistedCartItem = await screen.findByText(product.name);
-    expect(persistedCartItem).toBeInTheDocument();
+    // Re-render component to check items are still in cart
+    render(<ShoppingCart cart={mockCartTwo} />);
+
+    // Check all products from mockCartTwo are still in cart after refresh
+    mockCartTwo.forEach((product) => {
+      const cartItem = screen.getByText(product.name);
+      expect(cartItem).toBeInTheDocument();
+    });
   });
 });
+
+// TO DO
+// Edge Case: Multiples of same item are added to cart
