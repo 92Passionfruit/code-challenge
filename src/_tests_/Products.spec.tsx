@@ -1,10 +1,11 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
-import Products from "../pages/Store";
+import Store from "../pages/Store";
 import productsData from "../assets/products.json";
 
 describe("Products Component", () => {
   test("loads a list of products from products.json", async () => {
-    render(<Products />);
+    render(<Store />);
 
     // Correct number of products are loaded
     const productItems = await screen.findAllByRole("listitem");
@@ -21,7 +22,7 @@ describe("Products Component", () => {
   });
 
   test("lists product details (name and price) to the user", async () => {
-    render(<Products />);
+    render(<Store />);
 
     // Correct number of products are displayed
     const productItems = await screen.findAllByRole("listitem");

@@ -10,7 +10,7 @@ interface Product {
 
 const Store: React.FC = () => {
   // Add to shopping Cart
-  const [cart, setCart] = useState<Product[]>([]); // state variable = cart (empty array, setCart function updates state
+  const [cart, setCart] = useState<Product[]>([]); // state variable = cart (empty array), setCart function updates state
 
   //Add to cart function (cart state = all current cart items + new product)
   const addToCart = (product: Product) => {

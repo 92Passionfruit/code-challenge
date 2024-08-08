@@ -1,6 +1,8 @@
+import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ShoppingCart from "../context/ShoppingCart";
 import productsData from "../assets/products.json";
+import Store from "../pages/Store";
 
 interface Product {
   uuid: number;
@@ -8,26 +10,31 @@ interface Product {
   price: number;
 }
 
-// Mock data for testing
+// Mock data
 const mockCart: Product[] = [
-  { uuid: 1, name: "Product 1", price: 23.1 },
-  { uuid: 2, name: "Product 2", price: 10.5 },
+  { uuid: 1411, name: "Jockey Wheels - Orange", price: 15.39 },
+  { uuid: 23881, name: "Chain Ring 146mm", price: 65.95 },
 ];
 
-// Core Functionality Tests
 describe("ShoppingCart Component", () => {
   test("adds products to the shopping cart", async () => {
-    render(<ShoppingCart cart={mockCart} />);
+    render(<Store />);
 
-    const product = productsData[0];
+    const product = productsData.find((p) => p.uuid === 1411);
 
-    // Find and click 'Add to Cart' (uuid identifies product being added)
-    const addButton = await screen.findByTestId(`add-to-cart-${product.uuid}`);
-    fireEvent.click(addButton);
+    if (product) {
+      // Find and click 'Add to Cart' (uuid identifies product being added)
+      const addButton = await screen.findByTestId(
+        `add-to-cart-${product.uuid}`
+      );
+      fireEvent.click(addButton);
 
-    // Check product has been added to cart
-    const cartItem = await screen.findByText(product.name);
-    expect(cartItem).toBeInTheDocument();
+      // Check product has been added to cart
+      const cartItem = await screen.findByText(product.name);
+      expect(cartItem).toBeInTheDocument();
+    } else {
+      throw new Error("Product not found in productsData");
+    }
   });
 
   test("calculates and displays total cost (with and without discounts)", async () => {

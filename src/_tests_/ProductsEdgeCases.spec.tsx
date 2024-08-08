@@ -1,15 +1,16 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
-import Products from "../pages/Store";
+import Store from "../pages/Store";
 
 describe("Products Component - Empty Product List", () => {
   beforeEach(() => {
-    jest.resetModules();
+    //jest.resetModules();
     jest.mock("../assets/products.json", () => []);
   });
 
   test("displays a message when there are no products", async () => {
-    const Products = require("../pages/Store").default;
-    render(<Products />);
+    //const Store = require("../pages/Store").default;
+    render(<Store />);
 
     const productItems = screen.queryAllByRole("listitem");
     expect(productItems).toHaveLength(0);
@@ -21,7 +22,7 @@ describe("Products Component - Empty Product List", () => {
 
 describe("Products Component - Missing Product Details", () => {
   beforeEach(() => {
-    jest.resetModules();
+    //jest.resetModules();
     jest.mock("../assets/products.json", () => [
       {
         uuid: 1411,
@@ -42,8 +43,8 @@ describe("Products Component - Missing Product Details", () => {
   });
 
   test("handles products with missing details", async () => {
-    const Products = require("../pages/Store").default;
-    render(<Products />);
+    //const Store = require("../pages/Store").default;
+    render(<Store />);
 
     // Handling missing name
     expect(await screen.findByText("Unnamed Product")).toBeInTheDocument();
@@ -57,7 +58,7 @@ describe("Products Component - Missing Product Details", () => {
 
 describe("Products Component - Overlarge Product List", () => {
   beforeEach(() => {
-    jest.resetModules();
+    //jest.resetModules();
 
     jest.doMock("../assets/products.json", () => {
       const products = [];
@@ -73,9 +74,8 @@ describe("Products Component - Overlarge Product List", () => {
   });
 
   test("displays only the first 24 products when the list is too long", async () => {
-    const Products = require("../pages/Store").default;
-
-    render(<Products />);
+    //const Store = require("../pages/Store").default;
+    render(<Store />);
 
     // Only 24 items should be rendered
     const productItems = await screen.findAllByRole("listitem");
@@ -85,3 +85,6 @@ describe("Products Component - Overlarge Product List", () => {
     expect(screen.queryByText("Product 24")).not.toBeInTheDocument();
   });
 });
+
+// TO DO
+// add test for multiple of same item added to cart?
