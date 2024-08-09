@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 interface Product {
   uuid: number;
   name: string;
@@ -10,6 +10,22 @@ interface ShoppingCartProps {
 }
 
 const ShoppingCart = ({ cart }: ShoppingCartProps) => {
+  // State to store cart items
+  const [cartItems, setCartItems] = useState<Product[]>(cart);
+
+  useEffect(() => {
+    // Retrieve cart from localStorage on mount (initial render only)
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCartItems(JSON.parse(storedCart));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Store cart items in localStorage whenever cartItems changes
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
   // Calculate subtotal
   const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
 
