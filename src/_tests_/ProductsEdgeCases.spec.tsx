@@ -85,3 +85,7 @@ describe("Products Component - Overlarge Product List", () => {
     expect(screen.queryByText("Product 24")).not.toBeInTheDocument();
   });
 });
+
+// TO DO:
+// Find alternate fix to confusion of mocked data between tests
+// note: resetting modules causes difficult typescript errors when UseState is in app, try mocking outside of test suites (at top of file) and passing to <Store /> ??

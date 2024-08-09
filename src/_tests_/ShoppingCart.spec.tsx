@@ -194,3 +194,7 @@ describe("ShoppingCart Component - Edge Cases", () => {
     }
   });
 });
+
+// TO DO:
+// Tests for removing items from cart
+// Test for increasing/decreasing quantity of aggregated items in cart

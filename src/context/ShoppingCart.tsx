@@ -10,6 +10,9 @@ interface ShoppingCartProps {
 }
 
 const ShoppingCart = ({ cart }: ShoppingCartProps) => {
+  // TO DO:
+  // Logic for aggregated items (multiples of same product added to cart)
+
   // State to store cart items
   const [cartItems, setCartItems] = useState<Product[]>(cart);
 
@@ -50,7 +53,7 @@ const ShoppingCart = ({ cart }: ShoppingCartProps) => {
         {cart.map((item) => (
           <li key={item.uuid}>
             <div>{`${item.name}:`}</div>{" "}
-            {/* ':' = temp fix to prevent duplication of item name in Store.tsx */}
+            {/* ':' = temp fix to prevent duplication of item name in Store.tsx (TO DO: permanent fix) */}
             <div>${item.price}</div>
           </li>
         ))}
@@ -62,3 +65,6 @@ const ShoppingCart = ({ cart }: ShoppingCartProps) => {
 };
 
 export default ShoppingCart;
+
+//TO DO:
+// logic/display for item removal/increase/decrease from cart (TDD - write tests first)
