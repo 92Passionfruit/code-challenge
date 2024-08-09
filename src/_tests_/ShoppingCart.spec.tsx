@@ -141,19 +141,20 @@ describe("ShoppingCart Component - Edge Cases", () => {
     localStorage.clear();
 
     // Render the ShoppingCart with mockCartTwo
-    render(<ShoppingCart cart={mockCartTwo} />);
-
-    // Simulate page refresh
-    localStorage.setItem("cart", JSON.stringify(mockCartTwo));
-    // Clear and re-render ShoppingCart
     const { unmount } = render(<ShoppingCart cart={mockCartTwo} />);
+
+    // Unmount component to simulate page refresh
     unmount();
+
+    // Re-render component to check items are still in cart
     render(<ShoppingCart cart={mockCartTwo} />);
 
-    // Check products from mockCartTwo are still in cart after refresh
+    // Check all products from mockCartTwo are still in cart after refresh
     mockCartTwo.forEach((product) => {
-      const cartItem = screen.getByText(new RegExp(`${product.name}:`));
-      expect(cartItem).toBeInTheDocument();
+      // getAllByText handles multiple elements
+      const cartItems = screen.getAllByText(new RegExp(`${product.name}:`));
+      expect(cartItems.length).toBe(1); // Check there's only one element
+      expect(cartItems[0]).toBeInTheDocument();
     });
   });
 
