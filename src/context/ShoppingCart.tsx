@@ -59,7 +59,8 @@ const ShoppingCart = ({ cart }: ShoppingCartProps) => {
         ))}
       </ul>
       {/* Display total price */}
-      <div>Total: ${totalPrice.toFixed(2)}</div>
+      <div>Total: ${totalPrice.toFixed(2)}</div>{" "}
+      {/* TO DO: display subtotal and discount applied before rendering total price */}
     </div>
   );
 };

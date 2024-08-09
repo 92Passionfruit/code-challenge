@@ -88,4 +88,4 @@ describe("Products Component - Overlarge Product List", () => {
 
 // TO DO:
 // Find alternate fix to confusion of mocked data between tests
-// note: resetting modules causes difficult typescript errors when UseState is in app, try mocking outside of test suites (at top of file) and passing to <Store /> ??
+// note: resetting modules causes difficult typescript errors when UseState is in app, try mocking outside of test suites (at top of file) and passing to <Store />  like did with mockCart in ShoppingCart.spec.tsx ??
