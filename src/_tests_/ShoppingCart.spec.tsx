@@ -198,3 +198,4 @@ describe("ShoppingCart Component - Edge Cases", () => {
 // TO DO:
 // Tests for removing items from cart
 // Test for increasing/decreasing quantity of aggregated items in cart
+// Look into: test for persisting items in cart passes but doesn't work in th UI?
