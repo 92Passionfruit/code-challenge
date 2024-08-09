@@ -116,7 +116,8 @@ describe("ShoppingCart Component - Edge Cases", () => {
     const product = mockCart[0];
 
     // Check product is in cart
-    const cartItem = await screen.findByText(product.name);
+    const cartItem = await screen.findByText(new RegExp(product.name)); //regular expression to account for ':' added to end of item name in ShoppingCart
+
     expect(cartItem).toBeInTheDocument();
 
     // Check display of total
@@ -155,6 +156,5 @@ describe("ShoppingCart Component - Edge Cases", () => {
     });
   });
 });
-
 // TO DO
 // Edge Case: Multiples of same item are added to cart
