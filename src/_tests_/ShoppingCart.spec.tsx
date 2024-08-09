@@ -156,6 +156,40 @@ describe("ShoppingCart Component - Edge Cases", () => {
       expect(cartItem).toBeInTheDocument();
     });
   });
+
+  // Edge Case: Multiples of same item are added to cart
+  test("handles multiple quantities of the same item in cart", async () => {
+    render(<ShoppingCart cart={mockCart} />);
+
+    const product = mockCart[0];
+
+    // Simulate adding same product multiple times (3) with loop
+    for (let i = 0; i < 3; i++) {
+      const addButton = await screen.findByTestId(
+        `add-to-cart-${product.uuid}`
+      );
+      fireEvent.click(addButton);
+    }
+
+    // Check product is in cart with correct quantity
+    const cartItem = await screen.findByText(
+      new RegExp(`${product.name} \\(3\\)`)
+    );
+    expect(cartItem).toBeInTheDocument();
+
+    // Check total price calculation/display
+    const totalElement = await screen.findByText(/^Total:/);
+    expect(totalElement).toBeVisible();
+
+    const totalText = totalElement.textContent;
+
+    if (totalText) {
+      const total = parseFloat(totalText.replace("Total: $", ""));
+      const expectedTotal = product.price * 3; // 3 items in cart
+
+      expect(total).toBeCloseTo(expectedTotal, 2);
+    } else {
+      throw new Error("Total text not found.");
+    }
+  });
 });
-// TO DO
-// Edge Case: Multiples of same item are added to cart
